@@ -7,6 +7,7 @@ const {Router} = express;
 const userRouter = new Router();
 const clientPromise = require("../db-connectivity/mongo-client.js");
 const jwtKey = require("../keys/jwt-key.js");
+const authenticate = require("../authentication/auth.js");
 
 async function emailExists(email)
 {
@@ -73,7 +74,7 @@ userRouter.post("/user", async (req,res,next) =>
     res.status(500).send();
 });
 
-
+// This request handler function allows users to login to their account
 userRouter.post("/user-login", async (req,res,next) => 
 {
     const {email, password} = req.body;
@@ -112,5 +113,31 @@ userRouter.post("/user-login", async (req,res,next) =>
     res.status(500).send();
 });
 
+
+userRouter.post("/user-logout", authenticate, async (req,res,next) => 
+{
+    const mongoClient = await clientPromise;
+
+    try
+    {
+        const user = req.user;
+        const token = req.token;
+
+        user.tokens = user.tokens.filter( element => element !== token);
+
+        await mongoClient.db("note").collection("users").replaceOne({ _id: user._id  }, user);
+
+        res.status(200).send({ message: "Successfully logged out"});
+    }
+    catch(error)
+    {
+        res.status(500).send();
+    }
+
+
+}, async (error,req,res,next) => 
+{
+    res.status(500).send();
+});
 
 module.exports = userRouter;
