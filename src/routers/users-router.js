@@ -18,7 +18,7 @@ async function emailExists(email)
 }
 
 //This request handler function allows users to create an account
-userRouter.post("/user", async (req,res,next) => 
+userRouter.post("/user-create", async (req,res,next) => 
 {
     const body = req.body;
     const mongoClient = await clientPromise;
@@ -113,7 +113,7 @@ userRouter.post("/user-login", async (req,res,next) =>
     res.status(500).send();
 });
 
-
+// This request handler function allows users to logout from their account
 userRouter.post("/user-logout", authenticate, async (req,res,next) => 
 {
     const mongoClient = await clientPromise;
@@ -134,6 +134,27 @@ userRouter.post("/user-logout", authenticate, async (req,res,next) =>
         res.status(500).send();
     }
 
+
+}, async (error,req,res,next) => 
+{
+    res.status(500).send();
+});
+
+// This request handler function allows a user to delete their account
+userRouter.delete("/user-delete", authenticate, async (req,res,next) => 
+{
+    const mongoClient = await clientPromise;
+    const user = req.user;
+
+    try
+    {
+        await mongoClient.db("note").collection("users").deleteOne({ _id: user._id  });
+        res.status(200).send({ message: `User account was deleted`  });
+    }
+    catch(error)
+    {
+        res.status(500).send();
+    }
 
 }, async (error,req,res,next) => 
 {
