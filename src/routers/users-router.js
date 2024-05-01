@@ -136,7 +136,8 @@ userRouter.post("/user-logout", authenticate, async (req,res,next) =>
         const user = req.user;
         const token = req.token;
 
-        user.tokens = user.tokens.filter( element => element !== token);
+        user.tokens = user.token
+        console.log(updates);s.filter( element => element !== token);
 
         await mongoClient.db("note").collection("users").replaceOne({ _id: user._id  }, user);
 
@@ -196,6 +197,65 @@ userRouter.get("/user/:id", async (req,res,next) =>
     {
         req.status(500).send();
     }
+
+}, async (error,req,res,next) => 
+{
+    res.status(500).send();
+});
+
+
+userRouter.patch("/user-update", authenticate, async (req,res,next) => 
+{
+    const mongoClient = await clientPromise;
+    const allowedFields = ["name", "email", "age", "password"];
+    const updates = req.body.updates;
+    // id of the user whose details have to be updated
+    const _id = req.user._id;
+
+    let updateFields = Object.keys(updates);
+
+    // Removing all property variables which are not present as fields in a user document
+    updateFields = updateFields.filter(element => allowedFields.includes(element));
+
+    try
+    {
+        if(updates.email && !validator.isEmail(updates.email))
+            return res.status(400).send({ error: "Invalid email"  });
+
+        else if(updates.password && updates.password.length < 8)
+            return res.status(400).send({ error: "Password should be at least 8 characters long" });
+
+        else if(updates.age && updates.age < 0)
+            return res.status(400).send({ error: "Age must be non-negative"  });
+
+        else if(updates.name === "")
+            return res.status(400).send({ error: "Name must be at least 1 character long"  });
+        
+        /*  The first part of this condition ensures that if the update email is same as the 
+            current email then this condition will ot fire */
+        else if(req.user.email !== updates.email && updates.email && await emailExists(updates.email))
+            return res.status(400).send({ error: "An account with this email already exists"  });
+
+        // Generating a hash value from the plain text password that has been provided by the user
+        if(updates.password)
+            updates.password = await bcryptjs.hash(updates.password,8);
+
+        for(let field of updateFields)
+            req.user[field] = updates[field];
+        
+        await mongoClient.db("note").collection("users").replaceOne({ _id: req.user._id  }, req.user);
+
+        req.user.toJSON = toJSON;
+
+        res.send(req.user);
+    }
+    catch(error)
+    {
+        res.status(500).send();
+    }
+
+
+
 
 }, async (error,req,res,next) => 
 {
