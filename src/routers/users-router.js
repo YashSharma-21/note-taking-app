@@ -2,6 +2,7 @@ const express = require("express");
 const validator = require("validator");
 const bcryptjs = require("bcryptjs");
 const jsonwebtoken = require("jsonwebtoken");
+const mongodb = require("mongodb");
 
 const {Router} = express;
 const userRouter = new Router();
@@ -15,6 +16,18 @@ async function emailExists(email)
     const user = await mongoClient.db("note").collection("users").findOne({ email  });
 
     return user ? true: false;
+}
+
+// This function specifies how a user document should be converted into a JSON string
+function toJSON()
+{
+    const hiddenUser = {};
+    hiddenUser._id = this._id;
+    hiddenUser.name = this.name;
+    hiddenUser.age = this.age;
+    hiddenUser.email = this.email;
+
+    return hiddenUser;
 }
 
 //This request handler function allows users to create an account
@@ -99,7 +112,7 @@ userRouter.post("/user-login", async (req,res,next) =>
 
         await mongoClient.db("note").collection("users").replaceOne({ _id: user._id  }, user);
 
-        res.status(200).send({ token, name: user.name  });
+        res.status(200).send({ token, name: user.name, _id: user._id  });
 
     }
     catch(error)
@@ -154,6 +167,34 @@ userRouter.delete("/user-delete", authenticate, async (req,res,next) =>
     catch(error)
     {
         res.status(500).send();
+    }
+
+}, async (error,req,res,next) => 
+{
+    res.status(500).send();
+});
+
+// This request handler function allows a person to view some basic details about an account
+userRouter.get("/user/:id", async (req,res,next) => 
+{
+    const mongoClient = await clientPromise;
+    let _id = req.params.id;
+    _id = new mongodb.ObjectId(_id);
+
+    try
+    {
+        const user = await mongoClient.db("note").collection("users").findOne({ _id });
+
+        if(!user)
+            return res.status(404).send({ error: "User not found"  });
+
+        user.toJSON = toJSON;
+
+        res.send(user);
+    }
+    catch(error)
+    {
+        req.status(500).send();
     }
 
 }, async (error,req,res,next) => 
