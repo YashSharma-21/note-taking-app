@@ -27,3 +27,14 @@ setup().then(client =>
     client.close();
     
 },error => console.log(error));
+
+
+// const bcryptjs = require("bcryptjs");
+
+// async function a()
+// {
+//     const hashString = await bcryptjs.hash("password",8);
+//     console.log(await bcryptjs.compare("passwor",hashString));
+// }
+
+// a();

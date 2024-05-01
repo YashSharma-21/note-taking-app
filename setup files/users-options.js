@@ -7,7 +7,7 @@ const options =
         {
             bsonType: "object",
             
-            required: ["_id", "name", "age", "password", "tokens"],
+            required: ["_id", "name", "age", "password", "tokens", "email"],
 
             properties: 
             {
@@ -45,6 +45,12 @@ const options =
                         bsonType: "string"
                     }
 
+                },
+
+                email:
+                {
+                    bsonType: "string",
+                    description: "Must be a string and is required"
                 }
             }
 
