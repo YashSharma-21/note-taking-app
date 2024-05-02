@@ -85,4 +85,42 @@ noteRouter.delete("/note/:id", authenticate, async (req,res,next) =>
     }
 });
 
+// This request handler function allows a user to update their note
+noteRouter.patch("/note/:id", authenticate, async (req,res,next) => 
+{
+    try
+    {
+        const mongoClient = await clientPromise;
+        const noteId = new mongodb.ObjectId(req.params.id);
+        const note = await mongoClient.db("note").collection("notes").findOne({ _id: noteId, creator: req.user._id  });
+
+        if(!note)
+            return res.status(404).send({ error: "Note not found" });
+
+        const updates = req.body.updates;
+        let updateFields = Object.keys(updates);
+        const allowedFields = ["heading", "body"];
+
+        updateFields = updateFields.filter( element => allowedFields.includes(element) );
+
+        if(updates.heading && updates.heading.length === 0)
+            return res.status(400).send({ error: "Note heading must be at least 1 character in length" });
+
+        else if(updates.body && updates.body.length === 0)
+            return res.status(400).send({ error: "Note body must be at least 1 character in length"  });
+
+        for(let field of updateFields)
+            note[field] = updates[field];
+
+        await mongoClient.db("note").collection("notes").replaceOne({ _id: note._id  }, note);
+
+        res.send(note);
+        
+    }
+    catch(error)
+    {
+        res.status(500).send();
+    }
+});
+
 module.exports = noteRouter;
