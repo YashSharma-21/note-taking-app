@@ -34,9 +34,11 @@ noteRouter.post("/note-create", authenticate, async (req,res,next) =>
         res.status(500).send();
     }
 
-}, async (error,req,res,next) => 
+});
+
+noteRouter.get("/note", authenticate, async (req,res,next) => 
 {
-    res.status(500).send();
+    
 });
 
 module.exports = noteRouter;

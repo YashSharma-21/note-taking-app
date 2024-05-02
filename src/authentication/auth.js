@@ -19,14 +19,16 @@ const mongodb = require("mongodb");
 
 async function authenticate(req,res,next)
 {
-    const {token} = req.body;
-    const mongoClient = await clientPromise;
-    
-    if(!token)
+    const authorization = req.headers.authorization;
+
+    if(!authorization)
         return res.status(400).send({ error: "No request token was provided"  });
 
     try
     {
+        const token = authorization.slice(7);
+        const mongoClient = await clientPromise;
+
         const payload = jsonwebtoken.verify(token, jwtKey);
         let {_id} = payload;
         _id = new mongodb.ObjectId(_id);

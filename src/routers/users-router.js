@@ -34,10 +34,10 @@ function toJSON()
 userRouter.post("/user-create", async (req,res,next) => 
 {
     const body = req.body;
-    const mongoClient = await clientPromise;
-
+    
     try
     {
+        const mongoClient = await clientPromise;
         //Adding the user
         let user = {};
 
@@ -82,19 +82,16 @@ userRouter.post("/user-create", async (req,res,next) =>
         res.status(500).send();
     }
 
-}, (error,req,res,next) => 
-{
-    res.status(500).send();
 });
 
 // This request handler function allows users to login to their account
 userRouter.post("/user-login", async (req,res,next) => 
 {
     const {email, password} = req.body;
-    const mongoClient = await clientPromise;
-
+    
     try
     {
+        const mongoClient = await clientPromise;
         const user  = await mongoClient.db("note").collection("users").findOne({ email });
         
         if(!user)
@@ -121,23 +118,19 @@ userRouter.post("/user-login", async (req,res,next) =>
         res.status(500).send();
     }
 
-}, (error,req,res,next) => 
-{
-    res.status(500).send();
 });
 
 // This request handler function allows users to logout from their account
 userRouter.post("/user-logout", authenticate, async (req,res,next) => 
 {
-    const mongoClient = await clientPromise;
-
+    
     try
     {
+        const mongoClient = await clientPromise;
         const user = req.user;
         const token = req.token;
 
-        user.tokens = user.token
-        console.log(updates);s.filter( element => element !== token);
+        user.tokens = user.tokens.filter( element => element !== token);
 
         await mongoClient.db("note").collection("users").replaceOne({ _id: user._id  }, user);
 
@@ -149,19 +142,16 @@ userRouter.post("/user-logout", authenticate, async (req,res,next) =>
     }
 
 
-}, async (error,req,res,next) => 
-{
-    res.status(500).send();
 });
 
 // This request handler function allows a user to delete their account
 userRouter.delete("/user-delete", authenticate, async (req,res,next) => 
 {
-    const mongoClient = await clientPromise;
     const user = req.user;
-
+    
     try
     {
+        const mongoClient = await clientPromise;
         await mongoClient.db("note").collection("users").deleteOne({ _id: user._id  });
         res.status(200).send({ message: `User account was deleted`  });
     }
@@ -170,20 +160,16 @@ userRouter.delete("/user-delete", authenticate, async (req,res,next) =>
         res.status(500).send();
     }
 
-}, async (error,req,res,next) => 
-{
-    res.status(500).send();
 });
 
 // This request handler function allows a person to view some basic details about an account
-userRouter.get("/user/:id", async (req,res,next) => 
+userRouter.get("/user", authenticate, async (req,res,next) => 
 {
-    const mongoClient = await clientPromise;
-    let _id = req.params.id;
-    _id = new mongodb.ObjectId(_id);
-
+    let _id = req.user._id;
+    
     try
     {
+        const mongoClient = await clientPromise;
         const user = await mongoClient.db("note").collection("users").findOne({ _id });
 
         if(!user)
@@ -198,28 +184,27 @@ userRouter.get("/user/:id", async (req,res,next) =>
         req.status(500).send();
     }
 
-}, async (error,req,res,next) => 
-{
-    res.status(500).send();
 });
 
 
 userRouter.patch("/user-update", authenticate, async (req,res,next) => 
 {
-    const mongoClient = await clientPromise;
     const allowedFields = ["name", "email", "age", "password"];
-    const updates = req.body.updates;
-    // id of the user whose details have to be updated
-    const _id = req.user._id;
-
-    let updateFields = Object.keys(updates);
-
-    // Removing all property variables which are not present as fields in a user document
-    updateFields = updateFields.filter(element => allowedFields.includes(element));
-
+    
     try
     {
-        if(updates.email && !validator.isEmail(updates.email))
+        const updates = req.body.updates;
+        // id of the user whose details have to be updated
+        const _id = req.user._id;
+    
+        let updateFields = Object.keys(updates);
+    
+        // Removing all property variables which are not present as fields in a user document
+        updateFields = updateFields.filter(element => allowedFields.includes(element));
+
+
+        const mongoClient = await clientPromise;
+        if(updates.email && !validator.isEmail(updates.email) || updates.email === "")
             return res.status(400).send({ error: "Invalid email"  });
 
         else if(updates.password && updates.password.length < 8)
@@ -257,9 +242,6 @@ userRouter.patch("/user-update", authenticate, async (req,res,next) =>
 
 
 
-}, async (error,req,res,next) => 
-{
-    res.status(500).send();
 });
 
 module.exports = userRouter;

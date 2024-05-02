@@ -11,4 +11,3 @@ app.use(userRouter);
 app.use(noteRouter);
 
 app.listen(port, () => console.log(`Note Server is running on port ${port}`));
-
