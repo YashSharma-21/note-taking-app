@@ -38,7 +38,30 @@ noteRouter.post("/note-create", authenticate, async (req,res,next) =>
 
 noteRouter.get("/note", authenticate, async (req,res,next) => 
 {
-    
+    const filter = { creator: req.user._id };
+    const options = {};
+
+    // These two query parameters can be used to implement pagination while making a request
+    if(req.query.skip)
+        options.skip = Number(req.query.skip);
+
+    if(req.query.limit)
+        options.limit = Number(req.query.limit);
+
+    if(req.query.keywords)
+        filter.$text = { $search: req.query.keywords };
+
+    try
+    {
+        const mongoClient = await clientPromise;
+        const notes = await mongoClient.db("note").collection("notes").find(filter,options).toArray();
+        res.send(notes);
+
+    }
+    catch(error)
+    {
+        res.status(500).send();
+    }
 });
 
 module.exports = noteRouter;

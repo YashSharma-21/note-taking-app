@@ -16,6 +16,8 @@ async function setup(ip = "localhost",port = 27017)
 
     await db.createCollection("notes", options);
 
+    await db.collection("notes").createIndex({ heading: "text", body: "text"  });
+
     return mongoClient;
 }
 
