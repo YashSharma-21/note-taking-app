@@ -36,7 +36,8 @@ noteRouter.post("/note-create", authenticate, async (req,res,next) =>
 
 });
 
-noteRouter.get("/note", authenticate, async (req,res,next) => 
+// This request handler function allows a user to read their notes
+noteRouter.get("/notes", authenticate, async (req,res,next) => 
 {
     const filter = { creator: req.user._id };
     const options = {};
@@ -57,6 +58,26 @@ noteRouter.get("/note", authenticate, async (req,res,next) =>
         const notes = await mongoClient.db("note").collection("notes").find(filter,options).toArray();
         res.send(notes);
 
+    }
+    catch(error)
+    {
+        res.status(500).send();
+    }
+});
+
+// This request handler function allows users to delete a note that they created
+noteRouter.delete("/note/:id", authenticate, async (req,res,next) => 
+{
+    try
+    {
+        const mongoClient = await clientPromise;
+        const noteId = new mongodb.ObjectId(req.params.id);
+        const deleteResponse = await mongoClient.db("note").collection("notes").deleteOne({ _id: noteId, creator: req.user._id  });
+
+        if(deleteResponse.deletedCount === 0)
+            return res.status(404).send({ error: "Note not found" });
+
+        res.send({ message: "Note was deleted" });
     }
     catch(error)
     {
