@@ -153,6 +153,10 @@ userRouter.delete("/user-delete", authenticate, async (req,res,next) =>
     {
         const mongoClient = await clientPromise;
         await mongoClient.db("note").collection("users").deleteOne({ _id: user._id  });
+        //Deleting all the notes created by this user
+        await mongoClient.db("note").collection("notes").deleteMany({ creator: req.user._id });
+
+
         res.status(200).send({ message: `User account was deleted`  });
     }
     catch(error)
