@@ -145,4 +145,20 @@ Some requests require the user to be authenticated, user authentication is perfo
   }
   </pre>
   </li>
+  <br>
+  <br>
+  <li><b>Reading User Details: </b> Send a GET request to <b>/user</b>. If the user is authenticated and the request is processed successfully then the server responds with a 200 status code and a JSON object whose contents will be as follows:<br><br>
+  <pre>
+  {
+    "_id": "66363e30cbf5825566c7468c",
+    "name": "John Doe",
+    "age": 43,
+    "email": "john.doe@gmail.com"
+  }
+  </pre>
+  Here, certain details such as password hash and log-in tokens of a user account have been explicitly hidden in the response.
+  </li>
+  <br>
+  <br>
+  
 </ul>
