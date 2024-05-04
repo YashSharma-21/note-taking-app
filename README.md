@@ -34,6 +34,13 @@
         }
       </pre>
     </li>
+    <li>If the "age" property holds a number value that is negative then the server will response with a 400 status code and a JSON object in the body whose contents will be as follows:<br><br>
+      <pre>
+        {
+          "error": "Age must be non-negative"
+        }
+      </pre>
+    </li>
   </ol>
     
   </li>
