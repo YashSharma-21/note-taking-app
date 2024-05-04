@@ -228,3 +228,72 @@ Some requests require the user to be authenticated, user authentication is perfo
   </li>
   
 </ul>
+
+<h3>Note Related Operations:</h3>
+<ul>
+<li><b>Creating a Note:</b> Send a POST request to <b>/note-create</b> which contains a JSON object in its body. This JSON object should be of following structure:<br><br>
+<pre>
+{
+    "note": 
+      {  
+        "heading": "Listen to some music", 
+        "body": "Linkin Park songs would be great"  
+      }
+}
+</pre>
+<h3>Some Possible Scenarios (while creating a note)</h3>
+<ol>
+<li>If the "heading" property holds an empty string value (that is, "") then the server responds with a 400 status code and a JSON object which has the following contents:<br><br>
+<pre>
+{ 
+  "error": "Note heading should contain at least 1 character" 
+}  
+</pre>
+</li>
+<br>
+<li>If the "body" property holds an empty string value (that is, "") then the server responds with a 400 status code and a JSON object which has the following contents:<br><br>
+<pre>
+{ 
+  "error": "Note body should contain at least 1 character"  
+}
+</pre>
+</li>
+<br>
+If valid contents are provided then the server responds with a 201 status code and a JSON object which has the following contents:<br><br>
+<pre>
+{
+    "creator": "66363e30cbf5825566c7468c",
+    "heading": "Listen to some music",
+    "body": "Linkin Park songs would be great",
+    "_id": "6636686fcbf5825566c7468d"
+}
+</pre>
+  
+</ol>
+</li>
+<br>
+<br>
+<li><b>Reading a Note:</b> Send a GET request to <b>/notes</b>.</li> This request message can make use of some query parameters. Those query parameters are as follows:<br><br>
+  <ol>
+    <li><b>skip:</b> This can hold a numeric value which should be a whole number, it represents the number of notes that should be skipped from the start of the result.</li>
+    <li><b>limit:</b> This can also hold a numeric value which should be a whole number, it represents the number of notes that should be returned in the response message.</li>
+    <li><b>keywords:</b> This can hold a space separated list of keywords. These keywords represent the words that should be present inside a note's heading or body.</li>
+  </ol>
+If a valid request is sent then the server will respond with a 200 status code with a JSON array which will store note objects which will have the following structure:<br><br>
+<pre>
+[
+    {
+        "_id": "6636686fcbf5825566c7468d",
+        "creator": "66363e30cbf5825566c7468c",
+        "heading": "Listen to some music",
+        "body": "Linkin Park songs would be great"
+    },
+    {
+        "_id": "66366acacbf5825566c7468e",
+        "creator": "66363e30cbf5825566c7468c",
+        "heading": "Draw a painting",
+        "body": "Try drawing a flower, such as a rose."
+    }
+]
+</pre>
+</ul>
