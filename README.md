@@ -273,7 +273,7 @@ If valid contents are provided then the server responds with a 201 status code a
 </li>
 <br>
 <br>
-<li><b>Reading a Note:</b> Send a GET request to <b>/notes</b>.</li> This request message can make use of some query parameters. Those query parameters are as follows:<br><br>
+<li><b>Reading a Note:</b> Send a GET request to <b>/notes</b>. This request message can make use of some query parameters. Those query parameters are as follows:<br><br>
   <ol>
     <li><b>skip:</b> This can hold a numeric value which should be a whole number, it represents the number of notes that should be skipped from the start of the result.</li>
     <li><b>limit:</b> This can also hold a numeric value which should be a whole number, it represents the number of notes that should be returned in the response message.</li>
@@ -296,4 +296,59 @@ If a valid request is sent then the server will respond with a 200 status code w
     }
 ]
 </pre>
+</li>
+<br><br>
+<li><b>Deleting a Note:</b> Send a DELETE request to <b>/note/id</b>. Here, the "id" part should be the id of some note that the user has created. If the request provides an id that does not represent the id of any note that the authenticated user has created then the server will response with a 404 status code and a JSON object which will have the following contents:<br><br>
+<pre>
+{ 
+  "error": "Note not found" 
+}
+</pre>
+If a valid id is provided then the server will respond with a 200 status code and a JSON object which will have the following contents:<br><br>
+<pre>
+{ 
+  "message": "Note was deleted" 
+}
+</pre>
+</li>
+<br><br>
+<li><b>Updating a Note: </b> Send a PATCH request to <b>/note/id</b>. Here, the "id" part should represent the id of some note that the user has created. The request should also contain a JSON object in its body part which should have the following structure:<br><br>
+<pre>
+{
+    "updates": { "heading": "Have some tea", "body": "Have the tea with some biscuits."}
+}
+</pre>
+<h3>Some Possible Scenarios (while updating a note)</h3>
+<ol>
+  <li>If a note with the given id is not found in the list of notes created by a user then the server responds with a 404 status code and a JSON object which has the following contents:<br><br>
+  <pre>
+  { 
+    "error": "Note not found" 
+  }
+  </pre>
+  </li>
+  <li>If the "heading" property holds an empty string value (that is, "") then the server will respond with a 400 status code and a JSON object which will have the following contents:<br><br>
+  <pre>
+  { 
+    "error": "Note heading must be at least 1 character in length" 
+  }
+  </pre>
+  </li>
+  <li>If the "body" property holds an empty string value (that is, "") then the server will respond with a 400 status code and a JSON object which will have the following contents:<br><br>
+  <pre>
+  { 
+    "error": "Note body must be at least 1 character in length" 
+  }
+  </pre></li>
+</ol>
+Just like the update request for a user account, this request does not need to provide values for <b>all</b> the fields of a note, a user is free to update only some required fields. If valid contents are provided then the server responds with a 200 status code and a JSON object which will have the following structure:<br><br>
+<pre>
+{
+  "_id": "66366acacbf5825566c7468e",
+  "creator": "66363e30cbf5825566c7468c",
+  "heading": "Have some chips for snacks",
+  "body": "Also have a cold coffee"
+}
+</pre>
+</li>
 </ul>
