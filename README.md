@@ -15,5 +15,14 @@
 
 <h2>API Specification</h2>
 <ul>
-  <li><b>Creating a User Account:</b> Send a POST request to <b>/user-create</b> which contains a JSON object in its body.</li>
+  <li><b>Creating a User Account:</b> Send a POST request to <b>/user-create</b> which contains a JSON object in its body. This JSON object should have the following structure<br>
+  <pre>
+    {
+      "name": "John Doe",
+      "age": 43,
+      "email": "john.doe@gmail.com",
+      "password": "some.strong.password"
+    }
+  </pre>
+  </li>
 </ul>
