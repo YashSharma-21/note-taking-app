@@ -12,3 +12,5 @@
   <li>Run the "main.js" file to launch the application server.</li>
   <li>Send appropriate request messages to perform the desired operations such as creating user accounts, updating user details, creating notes etc.</li>
 </ol>
+
+<h2>API Specification</h2>
