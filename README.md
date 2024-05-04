@@ -5,3 +5,7 @@
 <p>
   This project uses JWTs (JSON Web Tokens) to authenticate users, whenever a new token is created, it is set to expire in 14 days. Also, user passwords are stored in form of hashes to offer more security to users.
 </p>
+<h2>Instructions to run this program</h2>
+<ol>
+  <li>First run the "setup.js" file to initialise the "note" database.</li>
+</ol>
