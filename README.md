@@ -12,6 +12,7 @@
   <li>Run the "src/main.js" file to launch the application server.</li>
   <li>Send appropriate request messages to perform the desired operations such as creating user accounts, updating user details, creating notes etc.</li>
 </ol>
+Some requests require the user to be authenticated, user authentication is performed in this program by the means of "Bearer Tokens", simply add an "Authorization" header which holds a value of the format "Bearer &lt;token&gt;" (without the double quotes).
 
 <h2>API Specification</h2>
 <h3>User Related Operations:</h3>
@@ -77,6 +78,8 @@
   </pre></p>
     
   </li>
+  <br>
+  <br>
   <li><b>Logging in as a User:</b> Send a POST request to <b>/user-login</b> which contains a JSON object in its body. This JSON object should have the following structure<br><br>
   <pre>
     {
@@ -111,5 +114,17 @@
     </pre>
     </li>
   </ol>
+  <p>If a valid request is sent then the server responds with a 200 status code and a JSON object whose contents are of the following structure:<br><br>
+  <pre>
+   {
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjM2M2UzMGNiZjU4MjU1NjZjNzQ2OGMiLCJpYXQiOjE3MTQ4MzQ3MjIsImV4cCI6MTcxNjA0NDMyMn0.qmZX0mKS-YF-BHpE9yaQwfdOlkTprlUgJdYk82ygIc0",
+      "name": "John Doe",
+      "_id": "66363e30cbf5825566c7468c"
+    } 
+  </pre>
+  Here, the "token" property contains a string value that represents the newly created token for the current log-in.
+  </p>
   </li>
+  <br><br>
+  <li><b>Logging out as a User:</b> Send a POST request to <b>/user-logout</b>. This request does not need a body but it is an operation that requires user authentication.</li>
 </ul>
