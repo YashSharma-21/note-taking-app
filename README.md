@@ -70,9 +70,9 @@
   <p>If valid contents are provided then the server responds with a 201 status code and a JSON object which will have its contents as follows:<br><br>
   <pre>
     {
-    "_id": "66363e30cbf5825566c7468c",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjM2M2UzMGNiZjU4MjU1NjZjNzQ2OGMiLCJpYXQiOjE3MTQ4MzA4OTYsImV4cCI6MTcxNjA0MDQ5Nn0.2c9QQgHT0b6-iE3Vq9un-KFONMKTBIGdni0NheHw9mw",
-    "name": "John Doe"
+      "_id": "66363e30cbf5825566c7468c",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjM2M2UzMGNiZjU4MjU1NjZjNzQ2OGMiLCJpYXQiOjE3MTQ4MzA4OTYsImV4cCI6MTcxNjA0MDQ5Nn0.2c9QQgHT0b6-iE3Vq9un-KFONMKTBIGdni0NheHw9mw",
+      "name": "John Doe"
     }
   </pre></p>
     
@@ -86,5 +86,30 @@
   </pre>
 
   <h3>Some Possible Scenarios (while logging in)</h3>
+  <ol>
+    <li>If the "email" property holds a string that represents an email which does not belong to any user then, the server responds with a 404 status code and a JSON object whose contents will be as follows:<br><br>
+    <pre>
+    {
+      "error": "No user found with the given email"
+    }
+    </pre>
+    </li>
+    <br>
+    <li>If the user tries to log-in even though he/she is already logged in 4 times then the server responds with a 400 status code and a JSON object whose contents will be as follows:<br><br>
+    <pre>
+    {
+      "error": "Can only have upto 4 devices logged in at a time"  
+    }
+    </pre>
+    </li>
+    <br>
+    <li>If the user provides an incorrect password in the "password" property then the server responds with a 400 status code and a JSON object whose contents will be as follows:<br><br>
+    <pre>
+    {
+      "error": "Invalid password"
+    }
+    </pre>
+    </li>
+  </ol>
   </li>
 </ul>
