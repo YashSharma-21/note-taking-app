@@ -15,5 +15,5 @@
 
 <h2>API Specification</h2>
 <ul>
-  <li><b>Creating a User Account</b></li>
+  <li><b>Creating a User Account:</b> Send a POST request which contains JSON object in its body.</li>
 </ul>
