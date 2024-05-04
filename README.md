@@ -126,5 +126,23 @@ Some requests require the user to be authenticated, user authentication is perfo
   </p>
   </li>
   <br><br>
-  <li><b>Logging out as a User:</b> Send a POST request to <b>/user-logout</b>. This request does not need a body but it is an operation that requires user authentication.</li>
+  <li><b>Logging out as a User:</b> Send a POST request to <b>/user-logout</b>. This request does not need a body but it is an operation that requires user authentication.
+  If a user is authenticated then the server responds with a 200 status code and a JSON object whose contents will be as follows:<br><br>
+  <pre>
+  { 
+    "message": "Successfully logged out"
+  }
+  </pre>
+  </ol>
+  </li>
+  <br>
+  <br>
+  <li><b>Deleting a User:</b> Send a DELETE request to <b>/user-delete</b>. If the user is authenticated then the token that was used for authentication will be deleted from the "note" database when this request is processed. As a result
+  , the server will respond with a 200 status code and a JSON object whose structure will be as follows:<br><br>
+  <pre>
+  { 
+    "message": "User account was deleted"  
+  }
+  </pre>
+  </li>
 </ul>
