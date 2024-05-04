@@ -29,16 +29,16 @@
   <ol>
     <li>If the "name" property holds an empty string value (that is, "") then the server will respond with a 400 status code and a JSON object in the body whose contents will be as follows:<br><br>
       <pre>
-      { 
-        "error": "Name should be 1 or more characters long"  
-      }
+    { 
+      "error": "Name should be 1 or more characters long"  
+    }
       </pre>
     </li>
     <li>If the "age" property holds a number value that is negative then the server will response with a 400 status code and a JSON object in the body whose contents will be as follows:<br><br>
       <pre>
-      {
-        "error": "Age must be non-negative"
-      }
+    {
+      "error": "Age must be non-negative"
+    }
       </pre>
     </li>
   </ol>
