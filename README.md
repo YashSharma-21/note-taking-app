@@ -15,5 +15,5 @@
 
 <h2>API Specification</h2>
 <ul>
-  <li>Creating a User Account</li>
+  <li><b>Creating a User Account</b></li>
 </ul>
