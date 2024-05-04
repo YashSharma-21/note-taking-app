@@ -76,4 +76,12 @@
   </pre></p>
     
   </li>
+  <li><b>Logging in as a User:</b> Send a POST request to <b>/user-login</b> which contains a JSON object in its body. This JSON object should have the following structure<br><br>
+  <pre>
+    {
+      "email": "john.doe@gmail.com",
+      "password": "some.strong.password"
+    }
+  </pre>
+  </li>
 </ul>
