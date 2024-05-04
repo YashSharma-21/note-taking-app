@@ -24,6 +24,6 @@
       "password": "some.strong.password"
     }
   </pre><br>
-    Here, the "name" property should provide a string value that is at least 1 character in length, if an empty string value is provided (that is, "") then the server responds with a 400 status code reponse message. Also, note that if the "age" property holds a number value that is negative or the "password" property holds a password string that is shorter than 8 characters then also the server will response with a 400 status code.
+    
   </li>
 </ul>
