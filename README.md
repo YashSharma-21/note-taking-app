@@ -17,7 +17,7 @@ Some requests require the user to be authenticated, user authentication is perfo
 <h2>API Specification</h2>
 <h3>User Related Operations:</h3>
 <ul>
-  <li><b>Creating a User Account:</b> Send a POST request to <b>/user-create</b> which contains a JSON object in its body. This JSON object should have the following structure<br><br>
+  <li><b>Creating a User Account:</b> Send a POST request to <b>/user-create</b> which contains a JSON object in its body. This JSON object should have the following structure:<br><br>
   <pre>
     {
       "name": "John Doe",
