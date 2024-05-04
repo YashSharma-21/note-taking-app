@@ -8,4 +8,7 @@
 <h2>Instructions to run this program</h2>
 <ol>
   <li>First run the "setup.js" file to initialise the "note" database.</li>
+  <li>Make sure that a mongoDB server process is running on your local machine.</li>
+  <li>Run the "main.js" file to launch the application server.</li>
+  <li>Send appropriate request messages to perform the desired operations such as creating user accounts, updating user details, creating notes etc.</li>
 </ol>
