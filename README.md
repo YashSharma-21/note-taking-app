@@ -14,6 +14,7 @@
 </ol>
 
 <h2>API Specification</h2>
+<h3>User Related Operations:</h3>
 <ul>
   <li><b>Creating a User Account:</b> Send a POST request to <b>/user-create</b> which contains a JSON object in its body. This JSON object should have the following structure<br><br>
   <pre>
@@ -25,7 +26,7 @@
     }
   </pre>
 
-  <h3>Some Possible Scenarios</h3>
+  <h3>Some Possible Scenarios (while creating an account)</h3>
   <ol>
     <li>If the "name" property holds an empty string value (that is, "") then the server will respond with a 400 status code and a JSON object in the body whose contents will be as follows:<br><br>
       <pre>
@@ -83,5 +84,7 @@
       "password": "some.strong.password"
     }
   </pre>
+
+  <h3>Some Possible Scenarios (while logging in)</h3>
   </li>
 </ul>
