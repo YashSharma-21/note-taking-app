@@ -23,7 +23,7 @@
       "email": "john.doe@gmail.com",
       "password": "some.strong.password"
     }
-  </pre><br>
+  </pre>
 
   <h3>Some Possible Scenarios</h3>
   <ol>
