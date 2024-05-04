@@ -34,12 +34,20 @@
     }
       </pre>
     </li>
-    <li>If the "age" property holds a number value that is negative then the server will response with a 400 status code and a JSON object in the body whose contents will be as follows:<br><br>
+    <li>If the "age" property holds a number value that is negative then the server will respond with a 400 status code and a JSON object in the body whose contents will be as follows:<br><br>
       <pre>
     {
       "error": "Age must be non-negative"
     }
       </pre>
+    </li>
+
+    <li>If the "password" property holds a string that is shorter than 8 characters in length then the server will respond with a 400 status code and a JSON object in the body whose contents will be as follows:<br><br>
+    <pre>
+    {
+      "error": "Password must be at least 8 characters in length"
+    }
+    </pre>
     </li>
   </ol>
     
