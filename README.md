@@ -24,6 +24,11 @@
       "password": "some.strong.password"
     }
   </pre><br>
+
+  <h3>Some Possible Scenarios</h3>
+  <ol>
+    <li>If the "name" property holds an empty string value (that is, "") then the server will respond with a 400 status code and a JSON object in the body whose contents will be as follows:</li>
+  </ol>
     
   </li>
 </ul>
