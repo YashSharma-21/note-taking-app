@@ -9,7 +9,7 @@
 <ol>
   <li>First run the "setup.js" file to initialise the "note" database.</li>
   <li>Make sure that a mongoDB server process is running on your local machine.</li>
-  <li>Run the "main.js" file to launch the application server.</li>
+  <li>Run the "src/main.js" file to launch the application server.</li>
   <li>Send appropriate request messages to perform the desired operations such as creating user accounts, updating user details, creating notes etc.</li>
 </ol>
 
@@ -34,6 +34,7 @@
     }
       </pre>
     </li>
+    <br>
     <li>If the "age" property holds a number value that is negative then the server will respond with a 400 status code and a JSON object in the body whose contents will be as follows:<br><br>
       <pre>
     {
@@ -41,11 +42,38 @@
     }
       </pre>
     </li>
-
-    <li>A</li>
-
-    
+    <br>
+    <li>If the "password" property holds a string that is shorter than 8 characters in length then the server will respond with a 400 status code and a JSON object in the body whose contents will be as follows:<br><br>
+    <pre>
+    {
+      "error": "Password must be at least 8 characters in length"
+    }
+    </pre>
+    </li>
+    <br>
+    <li>If the "email" property holds a value that does not represent a valid email then the server will respond with a 400 status code and a JSON object in the body whose contents will be as follows:<br><br>
+    <pre>
+    {
+      "error": "Invalid email was provided"
+    }  
+    </pre>
+    </li>
+    <li>If the "email" property holds a string value that represents an email that is already in use by some user account then the server will respond with a 400 status code and a JSON object whose contents will be as follows:<br><br>
+    <pre>
+    {
+      "error": "Account with this email already exists"
+    }  
+    </pre>
+    </li>
   </ol>
+  <p>If valid contents are provided then the server responds with a 201 status code and a JSON object which will have its contents as follows:<br><br>
+  <pre>
+    {
+    "_id": "66363e30cbf5825566c7468c",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjM2M2UzMGNiZjU4MjU1NjZjNzQ2OGMiLCJpYXQiOjE3MTQ4MzA4OTYsImV4cCI6MTcxNjA0MDQ5Nn0.2c9QQgHT0b6-iE3Vq9un-KFONMKTBIGdni0NheHw9mw",
+    "name": "John Doe"
+    }
+  </pre></p>
     
   </li>
 </ul>
