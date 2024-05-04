@@ -160,5 +160,71 @@ Some requests require the user to be authenticated, user authentication is perfo
   </li>
   <br>
   <br>
+  <li><b>Updating a User's Details:</b> Send a PATCH request to <b>/user-update</b> which contains a JSON object in its body. This JSON object should have the following structure:<br><br>
+  <pre>
+  {
+    "updates": 
+      { 
+        "name": "Dummy Name",
+        "email": "john.doe@outlook.com", 
+        "password": "newpassword", 
+        "age": 44 
+      }
+  }
+  </pre>
+  <h3>Some Possible Scenarios (while updating a user)</h3>
+  <ol>
+  <li>If the "email" property holds a string value which does not represent a valid email then the server responds with a 400 status code and a JSON object which has the following contents:<br><br>
+  <pre>
+  { 
+    "error": "Invalid email"  
+  }
+  </pre>
+  </li>
+  <br>
+  <li>If the "password" property holds a string which has less than 8 characters then the server responds with a 400 status code and a JSON object which has the following contents:<br><br>
+  <pre>
+  { 
+    "error": "Password should be at least 8 characters long" 
+  }
+  </pre>
+  </li>
+  <br>
+  <li>If the "age" property holds a number value that is negative then the server responds with a 400 status code and a JSON object which has the following contents:<br><br>
+  <pre>
+  { 
+    "error": "Age must be non-negative"  
+  }
+  </pre>
+  </li>
+  <br>
+  <li>If the "name" property holds an empty string (that is, "") then the server responds with a 400 status code and a JSON object which will have the following contents:<br><br>
+  <pre>
+  { 
+    "error": "Name must be at least 1 character long"  
+  }
+  </pre>
+  </li>
+  <br>
+  <li>If the "email" property holds a string that represents an email that is being already used by some other user then the server responds with a 400 status code and a JSON object which has the following contents:<br><br>
+  <pre>
+  { 
+    "error": "An account with this email already exists"  
+  }
+  </pre>
+  </li>
+  If valid contents are provided then the server responds with a 200 status code and a JSON object which represents the updated state of the user's account, it will have the following structure:<br><br>
+  <pre>
+  {
+    "_id": "66363e30cbf5825566c7468c",
+    "name": "Dummy Name",
+    "age": 44,
+    "email": "john.doe@outlook.com"
+  }
+  </pre>
+  Note that, it is not required to provide new values for <b>all</b> the fields of a user, any of the valid fields of a user can be provided in the request message's body to perform an update operation.
+  
+  </ol>
+  </li>
   
 </ul>
