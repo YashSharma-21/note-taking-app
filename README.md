@@ -14,3 +14,6 @@
 </ol>
 
 <h2>API Specification</h2>
+<ul>
+  <li>Creating a User Account</li>
+</ul>
