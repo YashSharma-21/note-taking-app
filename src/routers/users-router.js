@@ -169,19 +169,10 @@ userRouter.delete("/user-delete", authenticate, async (req,res,next) =>
 // This request handler function allows a person to view some basic details about an account
 userRouter.get("/user", authenticate, async (req,res,next) => 
 {
-    let _id = req.user._id;
-    
     try
     {
-        const mongoClient = await clientPromise;
-        const user = await mongoClient.db("note").collection("users").findOne({ _id });
-
-        if(!user)
-            return res.status(404).send({ error: "User not found"  });
-
-        user.toJSON = toJSON;
-
-        res.send(user);
+        req.user.toJSON = toJSON;
+        res.send(req.user);
     }
     catch(error)
     {
